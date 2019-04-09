@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="UniversitySystemModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="UniversitySystemModelStoreContainer">
+          <EntitySet Name="Courses" EntityType="UniversitySystemModel.Store.Courses" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Lecturers" EntityType="UniversitySystemModel.Store.Lecturers" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Students" EntityType="UniversitySystemModel.Store.Students" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="StudentsEnrollments" EntityType="UniversitySystemModel.Store.StudentsEnrollments" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Courses_Lecturers_PK_LecturerId" Association="UniversitySystemModel.Store.FK_Courses_Lecturers_PK_LecturerId">
+            <End Role="Lecturers" EntitySet="Lecturers" />
+            <End Role="Courses" EntitySet="Courses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentsEnrollments_Courses_PK_CourseId" Association="UniversitySystemModel.Store.FK_StudentsEnrollments_Courses_PK_CourseId">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="StudentsEnrollments" EntitySet="StudentsEnrollments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentsEnrollments_Students_PK_StudentId" Association="UniversitySystemModel.Store.FK_StudentsEnrollments_Students_PK_StudentId">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="StudentsEnrollments" EntitySet="StudentsEnrollments" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Courses">
+          <Key>
+            <PropertyRef Name="CourseId" />
+          </Key>
+          <Property Name="CourseId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CourseName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="CourseCredit" Type="int" Nullable="false" />
+          <Property Name="LecturerId" Type="int" />
+        </EntityType>
+        <EntityType Name="Lecturers">
+          <Key>
+            <PropertyRef Name="LecturerId" />
+          </Key>
+          <Property Name="LecturerId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="LecturerName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Address" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Students">
+          <Key>
+            <PropertyRef Name="StudentId" />
+          </Key>
+          <Property Name="StudentId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="StudentName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Address" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Email" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="StudentsEnrollments">
+          <Key>
+            <PropertyRef Name="EnrollmentId" />
+          </Key>
+          <Property Name="EnrollmentId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="StudentId" Type="int" Nullable="false" />
+          <Property Name="CourseId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Courses_Lecturers_PK_LecturerId">
+          <End Role="Lecturers" Type="UniversitySystemModel.Store.Lecturers" Multiplicity="0..1" />
+          <End Role="Courses" Type="UniversitySystemModel.Store.Courses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lecturers">
+              <PropertyRef Name="LecturerId" />
+            </Principal>
+            <Dependent Role="Courses">
+              <PropertyRef Name="LecturerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentsEnrollments_Courses_PK_CourseId">
+          <End Role="Courses" Type="UniversitySystemModel.Store.Courses" Multiplicity="1" />
+          <End Role="StudentsEnrollments" Type="UniversitySystemModel.Store.StudentsEnrollments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="CourseId" />
+            </Principal>
+            <Dependent Role="StudentsEnrollments">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentsEnrollments_Students_PK_StudentId">
+          <End Role="Students" Type="UniversitySystemModel.Store.Students" Multiplicity="1" />
+          <End Role="StudentsEnrollments" Type="UniversitySystemModel.Store.StudentsEnrollments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentId" />
+            </Principal>
+            <Dependent Role="StudentsEnrollments">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="UniversitySystemModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="UniversitySystemContextDb" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Courses" EntityType="UniversitySystemModel.Course" />
+          <EntitySet Name="Lecturers" EntityType="UniversitySystemModel.Lecturer" />
+          <EntitySet Name="Students" EntityType="UniversitySystemModel.Student" />
+          <EntitySet Name="StudentsEnrollments" EntityType="UniversitySystemModel.StudentsEnrollment" />
+          <AssociationSet Name="FK_Courses_Lecturers_PK_LecturerId" Association="UniversitySystemModel.FK_Courses_Lecturers_PK_LecturerId">
+            <End Role="Lecturers" EntitySet="Lecturers" />
+            <End Role="Courses" EntitySet="Courses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentsEnrollments_Courses_PK_CourseId" Association="UniversitySystemModel.FK_StudentsEnrollments_Courses_PK_CourseId">
+            <End Role="Courses" EntitySet="Courses" />
+            <End Role="StudentsEnrollments" EntitySet="StudentsEnrollments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentsEnrollments_Students_PK_StudentId" Association="UniversitySystemModel.FK_StudentsEnrollments_Students_PK_StudentId">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="StudentsEnrollments" EntitySet="StudentsEnrollments" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="CourseId" />
+          </Key>
+          <Property Name="CourseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CourseName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="CourseCredit" Type="Int32" Nullable="false" />
+          <Property Name="LecturerId" Type="Int32" />
+          <NavigationProperty Name="Lecturer" Relationship="UniversitySystemModel.FK_Courses_Lecturers_PK_LecturerId" FromRole="Courses" ToRole="Lecturers" />
+          <NavigationProperty Name="StudentsEnrollments" Relationship="UniversitySystemModel.FK_StudentsEnrollments_Courses_PK_CourseId" FromRole="Courses" ToRole="StudentsEnrollments" />
+        </EntityType>
+        <EntityType Name="Lecturer">
+          <Key>
+            <PropertyRef Name="LecturerId" />
+          </Key>
+          <Property Name="LecturerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LecturerName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Course" Relationship="UniversitySystemModel.FK_Courses_Lecturers_PK_LecturerId" FromRole="Lecturers" ToRole="Courses" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="StudentId" />
+          </Key>
+          <Property Name="StudentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="StudentsEnrollments" Relationship="UniversitySystemModel.FK_StudentsEnrollments_Students_PK_StudentId" FromRole="Students" ToRole="StudentsEnrollments" />
+        </EntityType>
+        <EntityType Name="StudentsEnrollment">
+          <Key>
+            <PropertyRef Name="EnrollmentId" />
+          </Key>
+          <Property Name="EnrollmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentId" Type="Int32" Nullable="false" />
+          <Property Name="CourseId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Course" Relationship="UniversitySystemModel.FK_StudentsEnrollments_Courses_PK_CourseId" FromRole="StudentsEnrollments" ToRole="Courses" />
+          <NavigationProperty Name="Student" Relationship="UniversitySystemModel.FK_StudentsEnrollments_Students_PK_StudentId" FromRole="StudentsEnrollments" ToRole="Students" />
+        </EntityType>
+        <Association Name="FK_Courses_Lecturers_PK_LecturerId">
+          <End Role="Lecturers" Type="UniversitySystemModel.Lecturer" Multiplicity="0..1" />
+          <End Role="Courses" Type="UniversitySystemModel.Course" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lecturers">
+              <PropertyRef Name="LecturerId" />
+            </Principal>
+            <Dependent Role="Courses">
+              <PropertyRef Name="LecturerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentsEnrollments_Courses_PK_CourseId">
+          <End Role="Courses" Type="UniversitySystemModel.Course" Multiplicity="1" />
+          <End Role="StudentsEnrollments" Type="UniversitySystemModel.StudentsEnrollment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Courses">
+              <PropertyRef Name="CourseId" />
+            </Principal>
+            <Dependent Role="StudentsEnrollments">
+              <PropertyRef Name="CourseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentsEnrollments_Students_PK_StudentId">
+          <End Role="Students" Type="UniversitySystemModel.Student" Multiplicity="1" />
+          <End Role="StudentsEnrollments" Type="UniversitySystemModel.StudentsEnrollment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentId" />
+            </Principal>
+            <Dependent Role="StudentsEnrollments">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="UniversitySystemModelStoreContainer" CdmEntityContainer="UniversitySystemContextDb">
+          <EntitySetMapping Name="Courses">
+            <EntityTypeMapping TypeName="UniversitySystemModel.Course">
+              <MappingFragment StoreEntitySet="Courses">
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+                <ScalarProperty Name="CourseCredit" ColumnName="CourseCredit" />
+                <ScalarProperty Name="LecturerId" ColumnName="LecturerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lecturers">
+            <EntityTypeMapping TypeName="UniversitySystemModel.Lecturer">
+              <MappingFragment StoreEntitySet="Lecturers">
+                <ScalarProperty Name="LecturerId" ColumnName="LecturerId" />
+                <ScalarProperty Name="LecturerName" ColumnName="LecturerName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="UniversitySystemModel.Student">
+              <MappingFragment StoreEntitySet="Students">
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+                <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudentsEnrollments">
+            <EntityTypeMapping TypeName="UniversitySystemModel.StudentsEnrollment">
+              <MappingFragment StoreEntitySet="StudentsEnrollments">
+                <ScalarProperty Name="EnrollmentId" ColumnName="EnrollmentId" />
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="EntityDataModel">
+        <EntityTypeShape EntityType="UniversitySystemModel.Course" Width="1.5" PointX="3" PointY="0.875" Height="2.1725878906250005" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySystemModel.Lecturer" Width="1.5" PointX="0.75" PointY="1.125" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySystemModel.Student" Width="1.5" PointX="3" PointY="5" Height="1.9802864583333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="UniversitySystemModel.StudentsEnrollment" Width="1.5" PointX="5.25" PointY="1" Height="1.9802864583333335" IsExpanded="true" />
+        <AssociationConnector Association="UniversitySystemModel.FK_Courses_Lecturers_PK_LecturerId" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="2.0189925130208337" />
+          <ConnectorPoint PointX="3" PointY="2.0189925130208337" />
+        </AssociationConnector>
+        <AssociationConnector Association="UniversitySystemModel.FK_StudentsEnrollments_Courses_PK_CourseId" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="1.9901432291666668" />
+          <ConnectorPoint PointX="5.25" PointY="1.9901432291666668" />
+        </AssociationConnector>
+        <AssociationConnector Association="UniversitySystemModel.FK_StudentsEnrollments_Students_PK_StudentId" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="5.9901432291666667" />
+          <ConnectorPoint PointX="6" PointY="5.9901432291666667" />
+          <ConnectorPoint PointX="6" PointY="2.9802864583333335" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
